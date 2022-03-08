@@ -80,7 +80,7 @@ resources: {}
 rules:
   default: true
   custom:
-    - seriesQuery: 'string_latency_seconds_count{kubernetes_namespace!="",kubernetes_pod_name!=""}'
+  - seriesQuery: 'string_latency_seconds_count{kubernetes_namespace!="",kubernetes_pod_name!=""}'
     resources:
       overrides:
         kubernetes_namespace: {resource: "namespace"}
