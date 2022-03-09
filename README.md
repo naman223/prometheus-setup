@@ -1,40 +1,47 @@
 # prometheus-setup
 
-% helm dependency update ./prometheus
+**Steps to execute:**
 
-% helm install test --dry-run --debug ./prometheus
+1. helm dependency update ./prometheus
+2. helm install test --dry-run --debug ./prometheus
+3. helm dependency update ./prometheus-adapter
+4. helm install test --dry-run --debug ./prometheus-adapter
+5. helm install <release_name_server> ./prometheus
+6. helm install <release_name_adapter> ./prometheus-adapter
 
-% helm dependency update ./prometheus-adapter
+**Prometheus Port forward to see Metrics**:
+```bash
+export POD_NAME=$(kubectl get pods --namespace default -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}")
 
-% helm install test --dry-run --debug ./prometheus-adapter
+kubectl --namespace default port-forward $POD_NAME 9090 &
+```
 
-% helm install promotheus-8mar ./prometheus
+**Metrics**:
+```bash
+kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1
 
-% helm install promotheus-adapter-8mar ./prometheus-adapter
+curl http://localhost:9090/metrics/
+```
 
-Promotheus:
-
-% export POD_NAME=$(kubectl get pods --namespace default -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}")
-
-% kubectl --namespace default port-forward $POD_NAME 9090 &
-
-Metrics:
-
-% kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1
-
-% curl http://localhost:9090/metrics/
-
-Add annotations to the pod for pushing image:
+**Add annotations to the pod for pushing image:**
+```bash
 annotations:
   prometheus.io/path: /api/metrics
   prometheus.io/port: "8080"
   prometheus.io/scrape: "true"
+```
 
-Custom metrics:
-% curl http://localhost:9090/api/v1/query?query=string_latency_seconds_sum
+**Custom metrics:**
+```bash
+curl http://localhost:9090/api/v1/query?query=string_latency_seconds_sum
+```
 
-System metrics:
-% curl http://localhost:9090/api/v1/query?query=requests_in_progress_total
+**System metrics:**
+```bash
+curl http://localhost:9090/api/v1/query?query=requests_in_progress_total
+```
 
-Check the alertmanager log and if it's failing then edit alertmanager deployment and update endpoint for prometheus server with IP address of prometheus server.
-url: http://prometheus.default.svc:80 - shoud be http://<ip address>:80>
+**Note:**
+
+Check the alertmanager log in default namespace. If it's failing then edit alertmanager deployment and update endpoint for prometheus server with IP address of prometheus server.
+url: http://prometheus.default.svc:80 - shoud be http://ip_address_server:80
