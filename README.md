@@ -23,7 +23,7 @@ kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1
 curl http://localhost:9090/metrics/
 ```
 
-**Add annotations to the pod for pushing image:**
+**Add below annotations to the pod which needs to push metrics:**
 ```bash
 annotations:
   prometheus.io/path: /api/metrics
@@ -43,5 +43,11 @@ curl http://localhost:9090/api/v1/query?query=requests_in_progress_total
 
 **Note:**
 
-Check the alertmanager log in default namespace. If it's failing then edit alertmanager deployment and update endpoint for prometheus server with IP address of prometheus server.
-url: http://prometheus.default.svc:80 - shoud be http://ip_address_server:80
+Check the alertmanager log in default namespace. If it's failing then edit alertmanager deployment and update endpoint for prometheus server with IP address of prometheus server service as below
+```bash
+url: http://prometheus.default.svc:80
+```
+should be 
+```bash
+url: http://ip_address_of_prometheus_server_service:80
+```
