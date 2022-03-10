@@ -80,15 +80,11 @@ resources: {}
 rules:
   default: true
   custom:
-  - seriesQuery: 'string_latency_seconds_count{kubernetes_namespace!="",kubernetes_pod_name!=""}'
-    resources:
-      overrides:
-        kubernetes_namespace: {resource: "namespace"}
-        kubernetes_pod_name: {resource: "pod"}
+  - seriesQuery: 'string_latency_seconds_count{namespace!="",pod!=""}'
     name:
       matches: "string_latency_seconds_count"
       as: "string_latency_seconds"
-    metricsQuery: 'sum(rate(string_latency_seconds_sum[2m]) / rate(string_latency_seconds_count[2m])) by (kubernetes_pod_name, kubernetes_namespace)'
+    metricsQuery: 'sum(rate(string_latency_seconds_sum[2m]) / rate(string_latency_seconds_count[2m])) by (pod, namespace)'
 # - seriesQuery: '{__name__=~"^some_metric_count$"}'
 #   resources:
 #     template: <<.Resource>>
