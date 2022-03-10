@@ -1,0 +1,20 @@
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  # The name for the auto scaler. We're naming this based on the engine it'll scale
+  name: engine-generic-en-fr-cpu-hpa
+  # The namespace to run in
+  namespace: translate
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    # The name of the deployment this autoscaler will apply to
+    name: translate-service-translate-engine-en-fr
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+    - type: Pods
+      pods:
+        metricName: string_latency_seconds
+        targetAverageValue: 2000m
