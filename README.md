@@ -43,11 +43,11 @@ curl http://localhost:9090/api/v1/query?query=requests_in_progress_total
 
 **Note:**
 
-Check the alertmanager log in default namespace. If it's failing then edit alertmanager deployment and update endpoint for prometheus server with IP address of prometheus server service as below
+Check the prometheus-adapter log in default namespace. If it's failing then edit prometheus-adapter deployment and update endpoint for prometheus server with IP address of prometheus server service as below:
 ```bash
 url: http://prometheus.default.svc:80
 ```
-should be 
+change to 
 ```bash
 url: http://ip_address_of_prometheus_server_service:80
 ```
