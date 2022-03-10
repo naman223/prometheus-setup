@@ -81,6 +81,9 @@ rules:
   default: true
   custom:
   - seriesQuery: 'string_latency_seconds_count{namespace!="",pod!=""}'
+    resources:
+      overrides:
+        app_kubernetes_io_name: { resource: "app" }
     name:
       matches: "string_latency_seconds_count"
       as: "string_latency_seconds"
