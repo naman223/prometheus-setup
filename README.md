@@ -20,7 +20,7 @@ kubectl --namespace default port-forward $POD_NAME 9090 &
 ```bash
 kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1
 
-curl http://localhost:9090/metrics/
+curl http://localhost:9090/metrics
 ```
 
 **Add below annotations to the pod which needs to push metrics:**
