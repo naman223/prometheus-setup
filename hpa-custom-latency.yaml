@@ -2,7 +2,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   # The name for the auto scaler. We're naming this based on the engine it'll scale
-  name: engine-generic-en-fr-cpu-hpa
+  name: engine-generic-en-fr-custom-hpa
   # The namespace to run in
   namespace: translate
 spec:

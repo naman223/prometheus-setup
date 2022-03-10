@@ -41,6 +41,19 @@ curl http://localhost:9090/api/v1/query?query=string_latency_seconds_sum
 curl http://localhost:9090/api/v1/query?query=requests_in_progress_total
 ```
 
+**This query should return value as below**
+```bash
+kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1/namespaces/translate/pods/*/string_latency_seconds
+
+{"kind":"MetricValueList",
+"apiVersion":"custom.metrics.k8s.io/v1beta1",
+"metadata":{
+    "selfLink":"/apis/custom.metrics.k8s.io/v1beta1/namespaces/translate/pods/%2A/string_latency_seconds"},
+    "items":[{"describedObject":{"kind":"Pod","namespace":"translate","name":"translate-service-translate-engine-en-fr-88555cc7f-cnwnb","apiVersion":"/v1"},
+    "metricName":"string_latency_seconds",
+    "timestamp":"2022-03-10T17:00:32Z","value":"0","selector":null}]}
+```
+
 **Note:**
 
 Check the prometheus-adapter log in default namespace. If it's failing then edit prometheus-adapter deployment and update endpoint for prometheus server with IP address of prometheus server service as below:
