@@ -16,5 +16,6 @@ spec:
   metrics:
     - type: Pods
       pods:
+        # Custom metrics created in prometheus-adapter values.yaml
         metricName: string_latency_seconds
         targetAverageValue: 2000m
